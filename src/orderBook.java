@@ -1,16 +1,37 @@
 import java.util.*;
 
 class orderBook{
-    Set sellList = new TreeSet();
-    Set buyList = new TreeSet(Collections.reverseOrder());
-    //List sellList = new LinkedList<Order>();
-    //List buyList = new LinkedList<Order>();
+    TreeSet<Order> sellList = new TreeSet();
+    TreeSet<Order> buyList = new TreeSet(Collections.reverseOrder());
 
     public void addOrder(Order order){
         if (order.getSide().equals("B")){
-            buyList.add(order);
+            exeOrder(order,sellList,buyList);
         }else if (order.getSide().equals("S")){
-            sellList.add(order);
+            exeOrder(order,buyList,sellList);
+        }
+    }
+
+    private void exeOrder(Order order,TreeSet<Order> orderList,TreeSet<Order> opOrderList){  //execute submitted limited orders;orderList store submiited order;opOrderList is opposite order list
+        Iterator<Order> orderIterator = orderList.iterator();
+        int remain = order.getQuantity();
+        while (orderIterator.hasNext()){
+            Order orderNext = orderIterator.next();
+            if (order.getPrice() <=orderNext.getPrice() && orderList == buyList){
+                remain = orderNext.getQuantity() - remain;
+                if (remain > 0){
+                    orderNext.setQuantity(remain);
+                    remain = 0;
+                    break;
+                }else if (remain <=0){
+                    orderList.remove(order);
+                    remain = -remain;
+                }
+            }
+        }
+        order.setQuantity(remain);
+        if (order.getQuantity() != 0){
+            opOrderList.add(order);
         }
     }
 

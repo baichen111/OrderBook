@@ -30,6 +30,7 @@ public class Main {
             } else if (inputs.get(0).equals("CXL")) {
                 //cancel an order according to its order id
                 ob.cancelOrder(inputs.get(1));
+                System.out.println(ob);
             } else if (inputs.get(0).equals("END")) {
                     break;
             }
