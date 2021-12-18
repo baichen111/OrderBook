@@ -17,16 +17,14 @@ class orderBook{
         int remain = order.getQuantity();
         while (orderIterator.hasNext()){
             Order orderNext = orderIterator.next();
-            if (order.getPrice() <=orderNext.getPrice() && orderList == buyList){
-                remain = orderNext.getQuantity() - remain;
-                if (remain > 0){
-                    orderNext.setQuantity(remain);
-                    remain = 0;
-                    break;
-                }else if (remain <=0){
-                    orderList.remove(order);
-                    remain = -remain;
-                }
+            remain = orderNext.getQuantity() - remain;
+            if (remain > 0){
+                orderNext.setQuantity(remain);
+                remain = 0;
+                break;
+            }else if (remain <=0){
+                orderIterator.remove();
+                remain = -remain;
             }
         }
         order.setQuantity(remain);
