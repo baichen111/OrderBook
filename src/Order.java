@@ -8,12 +8,16 @@ class Order implements Comparable<Order>{
     private String orderType;
     private LocalDateTime time = LocalDateTime.now();
 
-    public Order() {
-    }
-
     public Order(Integer quantity, Integer price, String side, String id, String orderType) {
         this.quantity = quantity;
         this.price = price;
+        this.side = side;
+        this.id = id;
+        this.orderType = orderType;
+    }
+
+    public Order(Integer quantity, String side, String id,String orderType) {   // for market order,removing price entry
+        this.quantity = quantity;
         this.side = side;
         this.id = id;
         this.orderType = orderType;

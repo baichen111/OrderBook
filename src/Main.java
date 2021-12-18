@@ -1,5 +1,3 @@
-import java.time.LocalDateTime;
-
 import java.util.*;
 
 public class Main {
@@ -15,20 +13,22 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         orderBook ob = new orderBook();
         while (true) {
-            Order order = new Order();
             String input = scanner.nextLine();
             List<String> inputs = Arrays.asList(input.split(" "));
-            if (inputs.get(0).equals( "SUB") && inputs.get(1).equals("LO")) {
+            if (inputs.get(0).equals( "SUB") && inputs.get(1).equals("LO")) {               // limit order submission
                 ob.addOrder(new Order(Integer.valueOf(inputs.get(4)),
                                                         Integer.valueOf(inputs.get(5)),
                                                         inputs.get(2),
                                                         inputs.get(3),
                                                         inputs.get(1)));
                 System.out.println(ob);
-            } else if (inputs.get(0).equals("SUB") && inputs.get(1).equals("MO")) {
-                // search for opposite side order and execute market order
-            } else if (inputs.get(0).equals("CXL")) {
-                //cancel an order according to its order id
+            } else if (inputs.get(0).equals("SUB") && inputs.get(1).equals("MO")) {   // market order submission
+                ob.marketOrder(new Order(Integer.valueOf(inputs.get(4)),
+                                                                                            inputs.get(2),
+                                                                                            inputs.get(3),
+                                                                                            inputs.get(1)));
+                System.out.println(ob);
+            } else if (inputs.get(0).equals("CXL")) {                                                         //cancel an order according to its order id
                 ob.cancelOrder(inputs.get(1));
                 System.out.println(ob);
             } else if (inputs.get(0).equals("END")) {

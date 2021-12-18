@@ -12,7 +12,7 @@ class orderBook{
         }
     }
 
-    private void exeOrder(Order order,TreeSet<Order> orderList,TreeSet<Order> opOrderList){  //execute submitted limited orders;orderList store submiited order;opOrderList is opposite order list
+    private void exeOrder(Order order,TreeSet<Order> orderList,TreeSet<Order> opOrderList){  //execute submitted limited orders;orderList store submitted order;opOrderList is opposite order list
         Iterator<Order> orderIterator = orderList.iterator();
         int remain = order.getQuantity();
         while (orderIterator.hasNext()){
@@ -27,10 +27,23 @@ class orderBook{
                 remain = -remain;
             }
         }
-        order.setQuantity(remain);
-        if (order.getQuantity() != 0){
-            opOrderList.add(order);
+        if (!order.getOrderType() .equals("MO")) {   //we add remaining orders to orderList only if it is not market order
+            order.setQuantity(remain);
+            if (order.getQuantity() != 0) {
+                opOrderList.add(order);
+            }
         }
+    }
+
+    public void marketOrder(Order order){                                                    //handle market order
+        ArrayList<Order> buyOrders = new ArrayList<>(buyList);
+        ArrayList<Order> sellOrders = new ArrayList<>(sellList);
+        if (order.getSide().equals("B") && !sellOrders.isEmpty()){
+            order.setPrice(sellOrders.get(0).getPrice());
+        }else if (order.getSide().equals("S") && !buyOrders.isEmpty()){
+            order.setPrice(buyOrders.get(0).getPrice());
+        }
+        addOrder(order);
     }
 
     public void cancelOrder(String ID){
