@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 class Order implements Comparable<Order>{
     private Integer quantity;
@@ -24,9 +25,22 @@ class Order implements Comparable<Order>{
     public int compareTo(Order o) {
         int compare = Integer.compare(price, o.price);
         if (compare == 0){
-            return time.compareTo(o.time);
+            return o.time.compareTo(time);
         }
         return compare;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public Integer getQuantity() {

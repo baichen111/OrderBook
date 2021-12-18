@@ -29,7 +29,7 @@ public class Main {
                 // search for opposite side order and execute market order
             } else if (inputs.get(0).equals("CXL")) {
                 //cancel an order according to its order id
-                ob.cancelOrder(order);
+                ob.cancelOrder(inputs.get(1));
             } else if (inputs.get(0).equals("END")) {
                     break;
             }
